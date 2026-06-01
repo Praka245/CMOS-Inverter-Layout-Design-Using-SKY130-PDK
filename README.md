@@ -111,3 +111,8 @@ Power characterization was performed to study the energy consumption of the inve
 > **Note:** The simulation results presented in this repository are based on the extracted SPICE netlist generated from the Inverter layout designed in Magic VLSI using the SKY130 PDK. The results represent the behavior of this specific implementation and may vary with changes in device sizing, layout parasitics, process corners, operating conditions, and simulation parameters.
 
 ---
+### 🙋‍♂️ CONTRIBUTOR
+
+**Prakadeesh N**  
+Electronics and Communication Engineering (ECE)  
+Interested in Digital Design, VLSI, PCB
