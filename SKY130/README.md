@@ -1,4 +1,4 @@
-# 🚀 **# 🚀 SKY130 Open-Source PDK Setup Guide**
+# 🚀 SKY130 Open-Source PDK Setup Guide**
 
 > 💡 *A complete open-source Layout design using the SKY130 PDK*
 
@@ -46,7 +46,7 @@ This guide installs the three essential components required for custom Layout de
 - [**Magic VLSI**](http://opencircuitdesign.com/magic/) (Layout Editor & DRC)
 - [**Ngspice**](http://ngspice.sourceforge.net/) (Circuit Simulator)
 - [**OpenPDKs with SKY130**](https://github.com/google/skywater-pdk) (Process Design Kit)
-
+- [**XTerm**](https://invisible-island.net/xterm/) (Terminal Interface - **Optional**)
 ---
 
 ## 📋 Prerequisites
