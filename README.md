@@ -45,10 +45,11 @@ These layers collectively form the physical structure of the CMOS inverter and p
 CMOS-Inverter-Layout-Design-Using-SKY130-PDK
 │
 ├── LAYOUT/
-│   └── CMOS Inverter Layout Images
-│
+│   ├── IMAGES
+│   └── README.md
+|
 ├── SKY130/
-│   └── SKY130 README
+│   └── SKY130 README.md
 |   └── Stack Layer Image
 │
 ├── SPICE FILES/
@@ -61,9 +62,17 @@ CMOS-Inverter-Layout-Design-Using-SKY130-PDK
 │
 ├── SIMULATIONS/
 │   ├── VTC/
+|   |     ├──IMAGES
+|   |     └── README.md
 │   ├── NOISE/
+|   |     ├──IMAGES
+|   |     └── README.md
 │   ├── TIMING/
+|   |     ├──IMAGES
+|   |     └── README.md
 │   └── POWER/
+|        ├──IMAGES
+|        └── README.md
 │
 └── README.md
 ```
