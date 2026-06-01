@@ -1,12 +1,12 @@
 # ⚙️ CMOS-Inverter-Layout-Design-Using-SKY130-PDK
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Tool](https://img.shields.io/badge/Tool-Magic%20%7C%20Ngspice-orange)](https://github.com/RTimothyEdwards/magic)
 [![PDK](https://img.shields.io/badge/PDK-SKY130-green)](https://skywater-pdk.readthedocs.io/)
 
 ## 📌 Project Overview
 
-This project presents the complete design, physical layout, and post-layout simulation of a **CMOS Inverter** using the open-source **SKY130** Process Design Kit (PDK). The primary goal is to demonstrate a hands-on, end-to-end analog/mixed-signal design flow, from schematic capture to layout and performance verification.
+This project presents the complete design, physical layout, and post-layout simulation of a **CMOS Inverter** using the open-source **SKY130** Process Design Kit (PDK). The primary goal is to demonstrate a hands-on design flow from layout and performance verification.
 
 The entire flow is executed using open-source EDA tools:
 - **Layout Design**: `Magic VLSI` layout tool.
@@ -18,77 +18,96 @@ This repository serves as a foundational template for understanding CMOS circuit
 
 ## 🧱 SKY130 Process Stack & Layers
 
-The design adheres to the **SKY130** process rules. This is a mature 130nm CMOS technology with 6 metal layers (M1-M5 + M6), featuring:
+This project is implemented using the **SKY130 Open-Source Process Design Kit (PDK)**, a 130nm CMOS technology developed by SkyWater Technology. The PDK provides the design rules, device models, layer definitions, and process information required for custom integrated circuit design and simulation.
 
-- **Low-k Dielectric** for reduced parasitic capacitance.
-- **Multiple threshold voltage options** (LVP, HVT, etc.).
-- **Deep N-Well** for isolated wells and noise-sensitive circuits.
+The CMOS inverter layout was designed in **Magic VLSI** following the SKY130 design rules and layer specifications. The implementation primarily utilizes the fundamental fabrication layers required for CMOS device formation and interconnection.
 
-For a detailed understanding of the layer stack, critical dimensions, and design rules, refer to the official documentation:
+For a detailed understanding of the SKY130 process stack, layer definitions, and fabrication assumptions, refer to the official documentation:
 
-> 📖 **[SKY130 Process Stack Diagram & Assumptions](https://skywater-pdk.readthedocs.io/en/main/rules/assumptions.html#process-stack-diagram)**
+> 📖 **SKY130 Process Stack Diagram & Assumptions Link** [Stack Layer](https://skywater-pdk.readthedocs.io/en/main/rules/assumptions.html#process-stack-diagram)
 
-Key layers used in this design include:
-- **Active, N-Well, P-Well**
-- **Poly Silicon (PC)**
-- **N+ / P+ Implants (NSD, PSD)**
-- **Local Interconnect (LI)**
-- **Metal 1, Via 1, Metal 2**
+### 🎞️ Key Layers Used in This Design
+
+* **N-Well** – Formation of the PMOS transistor
+* **P-Substrate / Active Region** – Formation of the NMOS transistor
+* **Polysilicon (Poly)** – Gate electrode formation
+* **N+ and P+ Diffusion Regions** – Source and drain terminals
+* **Local Interconnect (LI)** – Short-range device interconnections
+* **Metal 1, 2 (M1, M2)** – Signal and power routing
+* **Contacts and Vias** – Electrical connections between layers
+
+These layers collectively form the physical structure of the CMOS inverter and provide the necessary routing resources for implementing the circuit layout.
 
 ---
+# 📂 Repository Structure
 
+```text
+CMOS-Inverter-Layout-Design-Using-SKY130-PDK
+│
+├── LAYOUT/
+│   └── CMOS Inverter Layout Images
+│
+├── SKY130/
+│   └── SKY130 Readme
+|   └── Stack Layer Image
+│
+├── SPICE FILES/
+│   ├── Inverter.spice
+│   ├── Inverter.ext
+│   ├── tb_Inverter.spice
+│   ├── tb_delay.spice
+│   ├── tb_noise_inverter.spice
+│   └── tb_power.spice
+│
+├── SIMULATIONS/
+│   ├── VTC/
+│   ├── NOISE/
+│   ├── TIMING/
+│   └── POWER/
+│
+└── README.md
+```
+---
 ## 🛠️ Project Structure & Analysis
 
-The repository is organized into directories, each containing detailed simulation files and results. Below is a high-level summary of the analyses performed.
+The repository contains the CMOS inverter layout, extracted SPICE netlists, simulation testbenches, and post-layout analysis results.
 
-| Directory / Tag | Analysis Performed | Description |
-| :--- | :--- | :--- |
-| **`VTC/`** | **Voltage Transfer Characteristics (VTC)** | DC sweep to determine inverter switching threshold, gain, and logic levels (VIL, VIH, VOL, VOH). |
-| **`TIMING/`** | **Propagation Delay** | Transient analysis measuring rising (t_pLH) and falling (t_pHL) propagation delays under capacitive load. |
-| **`NOISE/`** | **Noise Margin & Immunity** | Quantifies the robustness of the inverter by measuring the maximum tolerable noise voltage at the input. |
-| **`POWER/`** | **Power Consumption** | Evaluates static (leakage) and dynamic (switching) power dissipation at different frequencies. |
-| **`SIMULATIONS/`** | **Transient & DC Analysis** | General time-domain and DC behavioral simulations of the extracted layout netlist. |
-| **`LAYOUT/`** | **Physical Layout (Magic)** | GDS and Magic `.mag` files of the completed inverter layout, DRC-clean. |
-| **`SPICE FILES/`** | **Netlists & Testbenches** | All extracted netlists (`Inverter.ext`), simulation models, and testbenches (`tb_*.spice`) for Ngspice. |
+| Directory | Description |
+| :--- | :--- |
+| **`LAYOUT/`** | CMOS inverter layout files created using Magic VLSI. |
+| **`SPICE FILES/`** | Extracted netlists and simulation testbenches. |
+| **`VTC/`** | Voltage Transfer Characteristic (VTC) analysis. |
+| **`TIMING/`** | Timing and propagation delay analysis. |
+| **`NOISE/`** | Noise margin and noise immunity analysis. |
+| **`POWER/`** | Power consumption analysis. |
 
 > ✅ **Note on LVS (Layout vs. Schematic):**  
 > Due to the simplicity of the single-inverter design and manual verification of connections, **formal LVS was omitted**. The layout connectivity was visually verified in Magic. For larger circuits, LVS is mandatory.
 
 ---
 
-## 🔬 Detailed Analysis Results (Summary)
+## 🔬 Analyses Performed
 
-### 1. Voltage Transfer Characteristics (VTC) 📈
-- **Switching Threshold (V_M)**: ~0.65V (for VDD=1.8V).
-- **High Gain Region**: Sharp transition zone, typical of a well-designed CMOS inverter.
-- **Logic Levels**: Output swing fully rail-to-rail (0V to 1.8V).
+To characterize the electrical behavior of the CMOS inverter, several post-layout simulations were performed using the extracted SPICE netlist in NGSpice.
+
+### 1. Voltage Transfer Characteristic (VTC) Analysis 📈
+
+The VTC analysis was carried out to study the relationship between the input and output voltages of the inverter. This analysis helps evaluate the switching behavior, voltage gain, and logic-level characteristics of the CMOS inverter.
 
 ### 2. Timing Analysis ⏱️
-- **Rise Delay (t_pLH)**: 250 ps (with 50fF load).
-- **Fall Delay (t_pHL)**: 210 ps (with 50fF load).
-- The fall delay is slightly lower due to higher electron mobility in NMOS.
 
-### 3. Noise Margin Analysis 🎧
-- **High Noise Margin (NM_H)**: 0.72V.
-- **Low Noise Margin (NM_L)**: 0.68V.
-- The inverter shows good noise immunity, with margins > 35% of VDD.
+Transient simulations were performed to analyze the dynamic response of the inverter. This includes the investigation of signal transition behavior and propagation characteristics during switching events.
 
-### 4. Power Consumption ⚡
-- **Static Power**: ~10 pA (negligible, dominated by sub-threshold leakage).
-- **Dynamic Power at 100 MHz**: ~55 µW (dominant during switching).
+### 3. Noise Margin Analysis 🔊
+
+Noise margin analysis was conducted to evaluate the inverter's tolerance to unwanted voltage disturbances. This analysis provides insight into the reliability and robustness of the circuit under noisy operating conditions.
+
+### 4. Power Analysis ⚡
+
+Power characterization was performed to study the energy consumption of the inverter during operation. The analysis focuses on understanding the power behavior associated with switching activity and overall circuit operation.
+
+> 📂 Detailed simulation waveforms, calculations, observations, and results for each analysis are available in their respective directories within this repository.
+
+> **Note:** The simulation results presented in this repository are based on the extracted SPICE netlist generated from the Inverter layout designed in Magic VLSI using the SKY130 PDK. The results represent the behavior of this specific implementation and may vary with changes in device sizing, layout parasitics, process corners, operating conditions, and simulation parameters.
 
 ---
-
-## 🚀 Getting Started
-
-### Prerequisites
-- **Magic VLSI** (version 8.3 or later)
-- **Ngspice** (version 40 or later)
-- **SKY130 PDK** (installed and configured)
-
-### Running Simulations
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/your-username/CMOS-Inverter-Layout-Design-Using-SKY130-PDK.git
-   cd CMOS-Inverter-Layout-Design-Using-SKY130-PDK
