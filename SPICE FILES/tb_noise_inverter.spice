@@ -1,0 +1,28 @@
+* CMOS Inverter Noise Analysis
+
+.lib /home/praka/whyRD_eda_bundle/open_pdks/sky130/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+.include Inverter.spice
+
+* Power Supplies
+VDD VDD 0 1.8
+VSS VSS 0 0
+
+* DC Input Source
+VIN Vin 0 DC 0
+
+* Inverter Instance
+XINV Vout Vin VSS VDD Inverter
+
+* DC Sweep
+.dc VIN 0 1.8 1m
+
+.control
+run
+
+* VTC Curve
+plot v(Vout) vs v(Vin) v(Vin) vs v(Vin)
+
+.endc
+
+.end

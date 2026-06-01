@@ -1,0 +1,24 @@
+* Testbench for Magic extracted inverter
+
+.lib /home/praka/whyRD_eda_bundle/open_pdks/sky130/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+.include Inverter.spice
+
+* Power supply
+VDD VDD 0 1.8
+VSS VSS 0 0
+
+* Input stimulus (pulse)
+VIN Vin 0 PULSE(0 1.8 0 1n 1n 10n 20n)
+
+XINV Vout Vin VSS VDD Inverter
+
+* Run transient analysis
+.tran 0.1n 100n
+
+.control
+run
+plot v(Vin) v(Vout)
+.endc
+
+.end
