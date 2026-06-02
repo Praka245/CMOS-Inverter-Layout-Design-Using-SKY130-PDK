@@ -31,7 +31,7 @@ For a detailed understanding of the SKY130 process stack, layer definitions, and
 * **N-Well** – Formation of the PMOS transistor
 * **P-Substrate / Active Region** – Formation of the NMOS transistor
 * **Polysilicon (Poly)** – Gate electrode formation
-* **N+ and P+ Diffusion Regions** – Source and drain terminals
+* **N and P Diffusion Regions** – Source and drain terminals
 * **Local Interconnect (LI)** – Short-range device interconnections
 * **Metal 1, 2 (M1, M2)** – Signal and power routing
 * **Contacts and Vias** – Electrical connections between layers
