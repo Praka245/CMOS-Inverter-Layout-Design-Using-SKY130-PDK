@@ -46,11 +46,11 @@ The values of V_IL and V_IH are obtained from the points where the magnitude of 
 </p>
 
 ```
-|dVout/dVin| = 1
+|dVout/dVin| = -1
 ```
 
 * The first unity-gain crossing corresponds to **V_IL**
-* The second unity-gain crossing corresponds to **V_IH**
+* The last unity-gain crossing corresponds to **V_IH**
 
 These points define the boundaries between the valid logic regions and the transition region.
 
@@ -318,7 +318,7 @@ The transition width represents the input voltage range over which the inverter 
               = 253.9 mV
 ```
 
-A smaller transition width generally indicates a sharper switching characteristic and stronger noise immunity.
+A smaller transition width indicates a sharper switching characteristic and higher inverter gain in the transition region.
 
 ---
 
@@ -398,4 +398,4 @@ A relatively narrow transition region indicates strong switching behaviour and i
 
 - The inverter exhibits a sharp transition region, balanced noise margins, and full rail-to-rail output swing, all of which are desirable characteristics for reliable digital logic operation.
 
-
+- The extracted noise margin values are consistent with the previously obtained VTC characteristics, further validating the correctness of the post-layout CMOS inverter implementation.
