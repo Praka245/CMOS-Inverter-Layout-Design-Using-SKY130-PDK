@@ -77,27 +77,25 @@ CMOS-Inverter-Layout-Design-Using-SKY130-PDK
 └── README.md
 ```
 ---
-## 🛠️ Project Structure & Analysis
+## 🛠️ Project Workflow
 
-The repository contains the CMOS inverter layout, extracted SPICE netlists, simulation testbenches, and post-layout analysis results.
+```
 
-| Directory | Description |
-| :--- | :--- |
-| **`LAYOUT`** | CMOS inverter layout files created using Magic VLSI. |
-| **`SPICE FILES`** | Extracted netlists and simulation testbenches. |
-| **`VTC`** | Voltage Transfer Characteristic (VTC) analysis. |
-| **`TIMING`** | Timing and propagation delay analysis. |
-| **`NOISE`** | Noise margin and noise immunity analysis. |
-| **`POWER`** | Power consumption analysis. |
+ Layout Design (Magic VLSI)  -->   DRC + Spice Extraction  -->   Post-Layout Simulation   -->   Results Analysis 
 
+```
 <br>
 
-> 📌 **Note on LVS (Layout vs. Schematic):**  
-> Due to the simplicity of the single-inverter design and manual verification of connections, **formal LVS was omitted**. The layout connectivity was visually verified in Magic. For larger circuits, LVS is mandatory.
+📌 Note on LVS:
+> Due to the simplicity of the single-inverter design, formal LVS was not performed in this flow. Instead, layout connectivity was verified manually in Magic VLSI by checking transistor placement, diffusion sharing, and net connections.
+
+> For complex circuits, LVS is essential and ensures a one-to-one match between schematic and layout using extracted netlists and simulation tools (e.g., Netgen/Magic LVS flow).
+
+> LVS typically requires a schematic netlist (SPICE or xschem-based) and an extracted layout netlist, and can be verified using tools like Netgen or Magic LVS.
 
 ---
 
-## 🔬 Analyses Performed
+## 🔬 Analysis Performed
 
 To characterize the electrical behavior of the CMOS inverter, several post-layout simulations were performed using the extracted SPICE netlist in NGSpice.
 
