@@ -32,8 +32,8 @@ The inverter layout strictly follows the SKY130A backend stack. Each layer is se
 | ⚙️ N-Diff Contact | `ndc` | ndiff → li1 connection |
 | ⚙️ P-Diff Contact | `pdc` | pdiff → li1 connection |
 | 🧿 Polysilicon | `poly` | Gate electrode for NMOS & PMOS |
-| 🔗 Via (li1→met1) | `mcon` | Local interconnect to Metal 1 |
-| 🔗 Via (met1→met2) | `via1` | Metal 1 to Metal 2 connection |
+| 🔗 Via (li→m1) | `mcon` | Local interconnect to Metal 1 |
+| 🔗 Via (m1→m2) | `via1` | Metal 1 to Metal 2 connection |
 | 🧱 N-Well | `nwell` | PMOS isolation region |
 
 ---
