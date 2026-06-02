@@ -10,7 +10,7 @@
 
 - The Voltage Transfer Characteristic (VTC) is a DC plot of **V_out vs V_in** for a CMOS inverter. It describes how the inverter responds to a slowly sweeping input - essentially the static (steady-state) behaviour of the gate.
 
-A ideal inverter would have a perfectly vertical transition at VDD/2. Real CMOS inverters approximate this with a sharp sigmoid-shaped curve, which is one of the most important quality indicators of a digital gate.
+- An ideal inverter would have a perfectly vertical transition at VDD/2. Real CMOS inverters approximate this with a sharp sigmoid-shaped curve, which is one of the most important quality indicators of a digital gate.
 
 ---
 
@@ -30,7 +30,7 @@ A ideal inverter would have a perfectly vertical transition at VDD/2. Real CMOS 
 
 ### ⚙️ Switching Threshold (V_M)
 
-- V_M is the point where the VTC curve crosses the **V_out = V_in** line (the 45° diagonal). At this point both NMOS and NMOS are in saturation, and the inverter gain is at its maximum magnitude.
+- V_M is the point where the VTC curve crosses the **V_out = V_in** line (the 45° diagonal). At this point both PMOS and NMOS are in saturation, and the inverter gain is at its maximum magnitude.
 
 - For a symmetric inverter (equal drive strengths):
 
@@ -43,18 +43,7 @@ For an asymmetric inverter:
 - Stronger NMOS → V_M shifts below VDD/2
 
 The measured V_M from simulation is **≈ 883 mV** (with VDD = 1.8 V),
-Since 883 mV is slightly below 900 mV or 0.9v, the inverter exhibits a small shift toward lower input voltages, indicating that the NMOS pull-down network is marginally stronger than the PMOS pull-up network for the chosen transistor sizing.
-
----
-
-### 📉 Noise Margins
-
-```
-NM_H = V_OH - V_IH
-NM_L = V_IL - V_OL
-```
-
-Large noise margins mean the gate can tolerate more noise on its inputs without producing an incorrect output. A well-designed CMOS inverter aims for NM_H ≈ NM_L ≈ VDD/2.
+Since 883 mV is slightly below 900 mV (0.9 V), the inverter exhibits a small shift toward lower input voltages, indicating that the NMOS pull-down network is marginally stronger than the PMOS pull-up network for the chosen transistor sizing.
 
 ---
 
@@ -115,69 +104,80 @@ The VTC was obtained by performing a **DC sweep** of V_in from 0 V to VDD with a
 .include "Inverter.spice"
 .include "/path/to/sky130A/libs.tech/ngspice/sky130.lib.spice tt"
 
-VDD VDD 0 DC 1.8
-Vin in 0 DC 0
+* Power supply
+VDD VDD 0 1.8
+VSS VSS 0 0
 
-Xinv in out VDD 0 Inverter
+* Input stimulus (pulse)
+VIN Vin 0 DC 0
 
-.dc Vin 0 1.8 0.001
+XINV Vout Vin VSS VDD Inverter
 
-.meas dc Vm find Vin when vout=vin
+* DC analysis
+.dc VIN 0 1.8 0.001
 
 .control
 run
-plot v(vout) v(vin) vs v(vin)
+plot v(Vin) v(Vout)
 .endc
+.end
 ````
 
-| Parameter            | Value                        |
-| -------------------- | ---------------------------- |
-| Supply Voltage (VDD) | 1.8 V                        |
-| Input Sweep          | 0 V → 1.8 V, step 1 mV       |
-| Temperature          | 27°C (TT corner)             |
-| Simulator            | ngspice 44+                  |
-| SPICE Model          | SKY130A TT (typical-typical) |
+| Parameter      | Value                |
+| -------------- | -------------------- |
+| Temperature    | 27°C                 |
+| Simulator      | ngspice              |
+| Process Corner | TT (Typical-Typical) |
+| SPICE Model    | SKY130A              |
 
 ---
 
 ## 4. 📊 Simulation Results
 
-### VTC Plot — Full Range
+### VTC Plot
 
-> See: `VTC_2.png` — Full VTC: V_out (red) vs V_in (blue diagonal), sweep from 0 to 1.8 V.
+<img width="1000" height="500" alt="VTC_2" src="https://github.com/user-attachments/assets/fe8347d0-827d-40d1-a413-00abdd76f470" />
+
+<br>
+<br>
+
+> See: `VTC_2.png` - Full VTC : V_out (red) vs V_in (blue diagonal), sweep from 0 to 1.8 V.
 
 The plot clearly shows:
 
 * V_out is flat at **1.8 V** for V_in from 0 to ~0.6 V (NMOS off, PMOS fully on)
 * A **sharp transition** occurs between ~0.7 V and ~1.0 V
 * V_out drops to **~0 V** for V_in above ~1.0 V (PMOS off, NMOS fully on)
+* The V_out = V_in diagonal line (45°) intersects the VTC curve at the switching threshold V_M.
 
-The V_out = V_in diagonal line (45°) intersects the VTC curve at the switching threshold V_M.
+<p align="center">
+<img width="550" height="400" alt="Screenshot 2026-06-02 123627" src="https://github.com/user-attachments/assets/a881ce42-d1ea-478e-84c1-f03fd90eb217" />
+</p>
 
----
 
-### 🔍 VTC Plot — Zoomed Transition Region (V_M extraction)
+- The switching threshold V_M is determined from the intersection of Vin and Vout curves plotted against Vout, showing Vin = Vout at approximately 883 mV.
 
-> See: `VTC_1.png` — Zoomed view of the transition region showing the V_M crossing point.
-
-The inset plot zooms into the 840 mV – 960 mV region where the transition occurs. At the intersection of V_out = V_in:
-
-```
-V_M ≈ 883 mV   (measured by ngspice .meas)
-```
+   ```
+   V_M ≈ 883 mV   (measured by ngspice .meas)
+  ```
 
 ---
 
-### 🧾 V_M Measurement — ngspice Output
+### 🧾 V_M Measurement - ngspice Output
 
-> See: `Vm_Point.png` — ngspice terminal showing the `.meas` result for V_M.
+<p align="center">
+  <img width="684" height="482" alt="VTC Plot"
+       src="https://github.com/user-attachments/assets/0a243531-6944-493a-86df-0c5a80e88988">
+</p>
 
-```
-ngspice 56 -> meas dc Vm find Vin when vout=vin
-dc    =    8.830505e-01
-```
 
-**V_M = 883.05 mV**
+> See: `Vm_Point.png` - ngspice terminal showing the `.meas` result for V_M.
+
+   ```
+    .meas dc Vm find Vin when vout=vin
+   ```
+
+   **V_M = 883.05 mV**
 
 ---
 
@@ -192,76 +192,44 @@ dc    =    8.830505e-01
 | V_M       | **883 mV**     | VDD/2       |
 | VDD       | 1.8 V          | 1.8 V       |
 
----
 
 ### ⚖️ V_M Analysis
 
-```
-Ideal V_M = 900 mV
-Simulated V_M = 883 mV
-Deviation = 17 mV (~1.9%)
-```
+   ```
+     Ideal V_M = 900 mV
+     Simulated V_M = 883 mV
+     Deviation = 17 mV (~1.9%)
+   ```
 
 ---
 
-### 📉 Gain in Transition Region
 
-```
-|dV_out/dV_in| > 1
-```
 
----
+## 6. 🔗 Correlation Between Theory and Simulation
 
-### 📡 Noise Margin Estimation
+The simulated VTC closely follows the expected theoretical behaviour of a CMOS inverter.
 
-```
-V_IL ≈ 0.75 V
-V_IH ≈ 0.95 V
-
-NM_L ≈ 750 mV
-NM_H ≈ 850 mV
-```
+| Theoretical Prediction | Simulation Observation |
+|------------------------|------------------------|
+| V_out ≈ VDD when V_in < V_tn | ✅ Output remains near 1.8 V for low input voltages |
+| Sharp transition when both transistors conduct | ✅ Steep transition observed between approximately 0.7 V and 1.0 V |
+| Switching threshold near VDD/2 | ✅ V_M = 883 mV, close to the ideal 900 mV |
+| V_out ≈ 0 V for high input voltages | ✅ Output approaches 0 V when V_in approaches VDD |
+| Rail-to-rail output swing | ✅ Full output swing from 0 V to 1.8 V achieved |
 
 ---
 
-## 6. 🔗 Connecting Theory to Simulation
-
-| Theory                   | Observation |
-| ------------------------ | ----------- |
-| V_out = VDD at low input | ✅           |
-| Sharp transition region  | ✅           |
-| V_M ≈ VDD/2              | ✅           |
-| V_out = 0 at high input  | ✅           |
-| Gain > 1                 | ✅           |
-
----
 
 ## 7. 🎯 Conclusion
 
-* Post-layout CMOS inverter shows correct VTC behaviour
-* V_M = 883 mV is close to ideal 900 mV
-* Full rail-to-rail swing achieved
-* Good noise margins ensure robust logic operation
-
----
-
-## 🖼️ Images Reference
-
-| File           | Description              |
-| -------------- | ------------------------ |
-| `VTC_1.png`    | Zoomed transition region |
-| `VTC_2.png`    | Full VTC plot            |
-| `Vm_Point.png` | ngspice V_M measurement  |
+- The post-layout extracted CMOS inverter exhibits the expected Voltage Transfer Characteristic (VTC) behaviour.
+- The measured switching threshold of 883 mV is within 1.9% of the ideal value of 900 mV, indicating good balance between the pull-up and pull-down networks.
+- Overall, the simulation results validate the functionality of the CMOS inverter implemented using the SKY130A process.
 
 ---
 
 ## 8. 🧾 Summary
 
-| Item | Value   |
-| ---- | ------- |
-| VDD  | 1.8 V   |
-| V_M  | 883 mV  |
-| V_OH | 1.8 V   |
-| V_OL | ~0 V    |
-| NM_H | ~850 mV |
-| NM_L | ~750 mV |
+- A post-layout Voltage Transfer Characteristic (VTC) analysis of the CMOS inverter was performed using the SKY130A PDK and ngspice.
+- The inverter exhibited the expected CMOS switching behaviour, with the output transitioning from logic HIGH to logic LOW as the input voltage increased.
+- The measured switching threshold was **V_M = 883 mV**, which is within **1.9%** of the ideal value of **900 mV (VDD/2)**, indicating good balance between the NMOS and PMOS devices.
