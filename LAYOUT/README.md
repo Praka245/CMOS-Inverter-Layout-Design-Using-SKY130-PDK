@@ -81,7 +81,7 @@ The inverter follows a standard CMOS complementary topology with a vertical stac
 
 ### 📤 VOUT (Output)
 - Routed using **Metal 1 → mcon → li → licon → poly**
-- PMOS drain and NMOS drain are shorted together via `li1`
+- PMOS drain and NMOS drain are shorted together via `li`
 
 ---
 
