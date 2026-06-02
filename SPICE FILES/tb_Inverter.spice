@@ -16,6 +16,9 @@ XINV Vout Vin VSS VDD Inverter
 * Run transient analysis
 .tran 0.1n 100n
 
+* Run DC analysis
+.dc Vin 0 1.8 0.001
+
 .control
 run
 plot v(Vin) v(Vout)
