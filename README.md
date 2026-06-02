@@ -18,9 +18,9 @@ This repository serves as a foundational template for understanding CMOS circuit
 
 ## 🧱 SKY130 Process Stack & Layers
 
-This project is implemented using the **SKY130 Open-Source Process Design Kit (PDK)**, a 130nm CMOS technology developed by SkyWater Technology. The PDK provides the design rules, device models, layer definitions, and process information required for custom integrated circuit design and simulation.
+- This project is implemented using the **SKY130 Open-Source Process Design Kit (PDK)**, a 130nm CMOS technology developed by SkyWater Technology. The PDK provides the design rules, device models, layer definitions, and process information required for custom integrated circuit design and simulation.
 
-The CMOS inverter layout was designed in **Magic VLSI** following the SKY130 design rules and layer specifications. The implementation primarily utilizes the fundamental fabrication layers required for CMOS device formation and interconnection.
+- The CMOS inverter layout was designed in **Magic VLSI** following the SKY130 design rules and layer specifications. The implementation primarily utilizes the fundamental fabrication layers required for CMOS device formation and interconnection.
 
 For a detailed understanding of the SKY130 process stack, layer definitions, and fabrication assumptions, refer to the official documentation:
 
@@ -101,19 +101,19 @@ To characterize the electrical behavior of the CMOS inverter, several post-layou
 
 ### 1. Voltage Transfer Characteristic (VTC) Analysis 📈
 
-The VTC analysis was carried out to study the relationship between the input and output voltages of the inverter. This analysis helps evaluate the switching behavior, voltage gain, and logic-level characteristics of the CMOS inverter.
+* The VTC analysis was carried out to study the relationship between the input and output voltages of the inverter. This analysis helps evaluate the switching behavior, voltage gain, and logic-level characteristics of the CMOS inverter.
 
 ### 2. Timing Analysis ⏱️
 
-Transient simulations were performed to analyze the dynamic response of the inverter. This includes the investigation of signal transition behavior and propagation characteristics during switching events.
+* Transient simulations were performed to analyze the dynamic response of the inverter. This includes the investigation of signal transition behavior and propagation characteristics during switching events.
 
 ### 3. Noise Margin Analysis 🔊
 
-Noise margin analysis was conducted to evaluate the inverter's tolerance to unwanted voltage disturbances. This analysis provides insight into the reliability and robustness of the circuit under noisy operating conditions.
+* Noise margin analysis was conducted to evaluate the inverter's tolerance to unwanted voltage disturbances. This analysis provides insight into the reliability and robustness of the circuit under noisy operating conditions.
 
 ### 4. Power Analysis ⚡
 
-Power characterization was performed to study the energy consumption of the inverter during operation. The analysis focuses on understanding the power behavior associated with switching activity and overall circuit operation.
+* Power characterization was performed to study the energy consumption of the inverter during operation. The analysis focuses on understanding the power behavior associated with switching activity and overall circuit operation.
 
 ---
 
