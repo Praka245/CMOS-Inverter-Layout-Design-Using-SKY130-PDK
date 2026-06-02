@@ -27,39 +27,6 @@ The maximum noise voltage that can be superimposed on a logic signal without cau
 The Voltage Transfer Characteristic (VTC) of a CMOS inverter defines four important voltage levels.
 
 
-```spice
-* CMOS Inverter Noise Analysis Netlist
-
-VDD VDD 0 DC 1.8
-Vin Vin 0 DC 0
-
-M1 Vout Vin VDD VDD pfet w=1.0u l=0.15u
-M2 Vout Vin 0 0 nfet w=0.5u l=0.15u
-
-* DC Sweep from 0V to 1.8V with 1mV steps
-.dc Vin 0 1.8 0.001
-
-.control
-run
-
-* Plot VTC (Voltage Transfer Characteristic)
-plot vout vs vin
-
-* Calculate and plot gain (derivative)
-let gain = abs(deriv(vout))
-plot gain vs vin
-
-* Find V_IL (first crossing where gain = 1)
-meas vil find vin when gain=1 cross=1
-
-* Find V_IH (last crossing where gain = 1)
-meas vih find vin when gain=1 cross=last
-
-* Display results
-print vil vih
-.endc
-.end
-
 | Parameter | Description                                   |
 | --------- | --------------------------------------------- |
 | V_OH      | Output High Voltage                           |
@@ -106,6 +73,39 @@ NM_H = V_OH - V_IH
 ---
 
 # 2. 🧪 Simulation Setup
+
+### Testbench: `tb_noise_inverter.spice`
+
+```spice
+* CMOS Inverter Noise Analysis
+
+.lib /home/praka/whyRD_eda_bundle/open_pdks/sky130/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+.include Inverter.spice
+
+* Power Supplies
+VDD VDD 0 1.8
+VSS VSS 0 0
+
+* DC Input Source
+VIN Vin 0 DC 0
+
+* Inverter Instance
+XINV Vout Vin VSS VDD Inverter
+
+* DC Sweep
+.dc VIN 0 1.8 1m
+
+.control
+run
+
+* VTC Curve
+plot v(Vout) vs v(Vin) v(Vin) vs v(Vin)
+
+.endc
+.end
+
+```
 
 | Parameter      | Value                                   |
 | -------------- | --------------------------------------- |
