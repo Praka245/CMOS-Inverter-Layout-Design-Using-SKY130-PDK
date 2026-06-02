@@ -130,83 +130,52 @@ the timing reference levels become:
 
 ```spice
 * Propagation Delay & Slew Rate Testbench — sky130A Inverter
-* ============================================================
 
 .lib /home/praka/whyRD_eda_bundle/open_pdks/sky130/sky130A/libs.tech/ngspice/sky130.lib.spice tt
 .include Inverter.spice
 
-* --- Supply ---
 VDD VDD 0 1.8
 VSS VSS 0 0
-
-* --- Load capacitance (fanout of 4 equivalent) ---
 CL Vout 0 10f
 
-* --- Input pulse: slow edges to see delay cleanly ---
-* PULSE(V_low V_high t_delay t_rise t_fall t_on t_period)
 VIN Vin 0 PULSE(0 1.8 0 1n 1n 10n 20n)
 
-* --- DUT ---
 XINV Vout Vin VSS VDD Inverter
 
 * --- Transient analysis ---
 .tran 0.01n 100n
 
 .control
-  run
-
-  * ── Waveform plot ──────────────────────────────────────
-  plot v(Vin) v(Vout)
-
-  * ── Extract 50% crossing times ────────────────────────
-  * Input rising edge  → Vout falling  (t_pHL)
-  * Input falling edge → Vout rising   (t_pLH)
+run
 
   let vref   = 0.9        $ 50% of 1.8V
   let vref10 = 0.18       $ 10% of 1.8V
   let vref90 = 1.62       $ 90% of 1.8V
 
-  * Time when Vin crosses 50% rising (first edge)
   meas tran t_in_rise WHEN v(Vin)=vref RISE=1
-
-  * Time when Vout crosses 50% falling
   meas tran t_out_fall WHEN v(Vout)=vref FALL=1
-
-  * Time when Vin crosses 50% falling (second edge)
   meas tran t_in_fall WHEN v(Vin)=vref FALL=1
-
-  * Time when Vout crosses 50% rising
   meas tran t_out_rise WHEN v(Vout)=vref RISE=1
 
-  * ── Propagation delays ─────────────────────────────────
   let t_pHL = t_out_fall - t_in_rise
   let t_pLH = t_out_rise - t_in_fall
   let t_p   = (t_pHL + t_pLH) / 2
 
-  echo "--- Propagation Delays ---"
   print t_pHL
   print t_pLH
   print t_p
 
-  * ── Slew / transition times ────────────────────────────
-  * Fall time: Vout 90% → 10%
   meas tran t_vout_90_fall WHEN v(Vout)=vref90 FALL=1
   meas tran t_vout_10_fall WHEN v(Vout)=vref10 FALL=1
 
-  * Rise time: Vout 10% → 90%
   meas tran t_vout_10_rise WHEN v(Vout)=vref10 RISE=1
   meas tran t_vout_90_rise WHEN v(Vout)=vref90 RISE=1
 
   let t_fall = t_vout_10_fall - t_vout_90_fall
   let t_rise = t_vout_90_rise - t_vout_10_rise
 
-  echo "--- Slew Rates ---"
   print t_fall
   print t_rise
-
-  * ── Corner sweep hint ──────────────────────────────────
-  * Re-run with ff/ss/fs/sf in the .lib line to get
-  * best-case and worst-case delay corners.
 
 .endc
 .end
