@@ -83,12 +83,12 @@ The repository contains the CMOS inverter layout, extracted SPICE netlists, simu
 
 | Directory | Description |
 | :--- | :--- |
-| **`LAYOUT/`** | CMOS inverter layout files created using Magic VLSI. |
-| **`SPICE FILES/`** | Extracted netlists and simulation testbenches. |
-| **`VTC/`** | Voltage Transfer Characteristic (VTC) analysis. |
-| **`TIMING/`** | Timing and propagation delay analysis. |
-| **`NOISE/`** | Noise margin and noise immunity analysis. |
-| **`POWER/`** | Power consumption analysis. |
+| **`LAYOUT`** | CMOS inverter layout files created using Magic VLSI. |
+| **`SPICE FILES`** | Extracted netlists and simulation testbenches. |
+| **`VTC`** | Voltage Transfer Characteristic (VTC) analysis. |
+| **`TIMING`** | Timing and propagation delay analysis. |
+| **`NOISE`** | Noise margin and noise immunity analysis. |
+| **`POWER`** | Power consumption analysis. |
 
 <br>
 
