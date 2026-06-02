@@ -8,8 +8,11 @@
 VDD VDD 0 1.8
 VSS VSS 0 0
 
-* Input stimulus (pulse)
+* Input stimulus (pulse) for transient analysis
 VIN Vin 0 PULSE(0 1.8 0 1n 1n 10n 20n)
+
+* Input DC analysis
+VIN Vin 0 DC 0
 
 XINV Vout Vin VSS VDD Inverter
 
