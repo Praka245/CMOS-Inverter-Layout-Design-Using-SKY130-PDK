@@ -64,19 +64,6 @@ The characteristic S-shaped curve is divided into five distinct operating region
 
 ### 🔌 Operating Regions of MOS Transistors
 
-#### NMOS Terminal Voltages
-
-```
-V_GSn = V_in
-V_DSn = V_out
-```
-
-#### PMOS Terminal Voltages
-
-```
-V_GSp = V_in - VDD
-V_DSp = V_out - VDD
-````
 
 | Region | V_in Range | NMOS State | PMOS State | V_out Behaviour |
 |---|---|---|---|---|
